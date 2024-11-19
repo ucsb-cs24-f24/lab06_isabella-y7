@@ -34,20 +34,24 @@ int main(int argc, char** argv) {
   
     // Create an object of a STL data-structure to store all the movies
 
+    unordered_map<string, Movie> movieList;
+    set<Movie> movieSet;
+
     string line, movieName;
     double movieRating;
     // Read each file and store the name and rating
     while (getline(movieFile, line) && parseLine(line, movieName, movieRating)) {
-        // Use std::string movieName and double movieRating
-        // to construct your Movie objects
-        // cout << movieName << " has rating " << movieRating << endl;
-        // insert elements into your data structure
+        movieList[movieName] = Movie(movieName, movieRating);
+        movieSet.insert(Movie(movieName, movieRating));
     }
 
     movieFile.close();
 
     if (argc == 2) {
-        //print all the movies in ascending alphabetical order of movie names
+        // print all movoies in ascending alphabetical order of movie names
+        for(Movie movie:movieSet) {
+            movie.printMovie();
+        }
         return 0;
     }
 
