@@ -1,4 +1,4 @@
-// Student name: 
+// Student name: Isabella Yang
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -34,21 +34,21 @@ int main(int argc, char** argv) {
   
     // Create an object of a STL data-structure to store all the movies
 
-    unordered_map<string, Movie> movieList;
     set<Movie> movieSet;
+    PrefixSearch prefixSearch;
 
     string line, movieName;
     double movieRating;
     // Read each file and store the name and rating
     while (getline(movieFile, line) && parseLine(line, movieName, movieRating)) {
-        movieList[movieName] = Movie(movieName, movieRating);
+        prefixSearch.addMovie(Movie(movieName, movieRating));
         movieSet.insert(Movie(movieName, movieRating));
     }
 
     movieFile.close();
 
     if (argc == 2) {
-        // print all movoies in ascending alphabetical order of movie names
+        // print all movies in ascending alphabetical order of movie names
         for(Movie movie:movieSet) {
             movie.printMovie();
         }
@@ -69,14 +69,30 @@ int main(int argc, char** argv) {
         }
     }
 
-    //  For each prefix,
-    //  Find all movies that have that prefix and store them in an appropriate data structure
-    //  If no movie with that prefix exists print the following message
-    cout << "No movies found with prefix " << "<replace with prefix>" << endl;
+    prefixFile.close();
 
-    //  For each prefix,
-    //  Print the highest rated movie with that prefix if it exists.
-    cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
+    for(const auto& prefix : prefixes){
+        auto movies = prefixSearch.findbyPrefix(prefix);
+        if(movies.empty()){
+            cout << "No movies found with prefix " << prefix << endl;
+        }
+        else{
+            for(const auto& movie : movies){
+                cout << movie.getName() << ", " << movie.getRating() << endl;
+            }
+            cout << endl;
+        }
+       
+    }
+
+    for(const auto& prefix : prefixes){
+        auto bestMovie = prefixSearch.HighestRated(prefix);
+        if(!bestMovie.getName().empty()){
+            cout << "Best movie with prefix " << prefix << " is: " << bestMovie.getName()
+            << " with rating " << fixed << setprecision(1) << bestMovie.getRating() << endl;
+    }
+    }
+
 
     return 0;
 }

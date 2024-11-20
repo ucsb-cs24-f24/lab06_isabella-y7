@@ -1,34 +1,45 @@
 // movies.h
-// Author: Isabella Yang
+// author: Isabella Yang
 
 #ifndef MOVIES_H
 #define MOVIES_H
+
 #include <string>
 #include <unordered_map>
+#include <vector>
+
 using namespace std;
 
-class Movie {
+
+
+
+class Movie{
     private:
         string name;
-        double rating;
+        float rating;
 
     public:
-        Movie();
-        Movie(string name, double rating);
-        Movie(const Movie& m);
-        Movie& operator=(Movie const& m);
-        ~Movie();
 
-        string getName() const;
-        double getRating() const;
+        bool operator<(const Movie& other) const;
+        bool operator>(const Movie& other) const;
 
+        Movie(const string &name, float rating);
+
+        const string& getName() const {
+            return name;
+        }
+        float getRating() const {
+            return rating;
+        }
         void printMovie() const;
-        bool operator==(Movie const &m) const;
-        bool operator>(Movie const &m) const;
-        bool operator<(Movie const &m) const;
-
 };
 
 
 
-#endif // MOVIES_H
+
+
+
+
+
+
+#endif
