@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
         }
         else{
             for(const auto& movie : movies){
-                cout << movie.getName() << ", " << movie.getRating() << endl;
+                movie.printMovie();
             }
             cout << endl;
         }

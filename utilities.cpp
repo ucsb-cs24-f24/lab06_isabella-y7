@@ -9,16 +9,23 @@ void PrefixSearch::addMovie(const Movie &movie){
     }
 }
 
+bool movieCompare(const Movie &a, const Movie &b) {
+    if(a.getRating() == b.getRating()) {
+        return a.getName() < b.getName();
+    }
+    return a.getRating() > b.getRating();
+}
+
 vector<Movie> PrefixSearch::findbyPrefix(const string &prefix){
     if(prefixMap.find(prefix) != prefixMap.end()){
         vector<Movie> movies = prefixMap[prefix];
-        sort(movies.begin(), movies.end(), [](const Movie &a, const Movie &b){
-            return a.getRating() == b.getRating() ? a.getName() < b.getName() : a.getRating() > b.getRating();
-        });
+        sort(movies.begin(), movies.end(), movieCompare);
         return movies;
     }
     return{};
 }
+
+
 
 Movie PrefixSearch::HighestRated(const string &prefix) {
     auto it = prefixMap.find(prefix);
@@ -26,10 +33,17 @@ Movie PrefixSearch::HighestRated(const string &prefix) {
         return Movie("", -1);
     }
 
+    Movie highestRated = it->second[0];
+    for (const Movie &movie : it->second) {
+        if(movie.getRating() > highestRated.getRating()) {
+            highestRated = movie;
+        }
+        else if (movie.getRating() == highestRated.getRating() && movie.getName() < highestRated.getName()) {
+            highestRated = movie;
+        }
+    }
 
-    return *max_element(it->second.begin(), it->second.end(), [](const Movie &a, const Movie &b) {
-        return a.getRating() == b.getRating() ? a.getName() > b.getName() : a.getRating() < b.getRating();
-    });
+    return highestRated;
 }
 
 
