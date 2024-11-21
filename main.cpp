@@ -15,13 +15,11 @@ using namespace std;
 
 #include "utilities.h"
 #include "movies.h"
-#include <chrono>
 
 bool parseLine(string &line, string &movieName, double &movieRating);
 
 
 int main(int argc, char** argv) {
-    auto start = std::chrono::high_resolution_clock::now();
     if (argc < 2) {
         cerr << "Not enough arguments provided (need at least 1 argument)." << endl;
         cerr << "Usage: " << argv[0] << " moviesFilename prefixFilename " << endl;
@@ -105,11 +103,7 @@ int main(int argc, char** argv) {
     }
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
-
-    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    std::cout << "Time taken for : " << elapsed.count() << " ms" << std::endl;
+   
     return 0;
 }
 
